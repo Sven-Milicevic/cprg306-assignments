@@ -1,22 +1,28 @@
 import React from "react";
+import ItemList from "./item-list";
 
-interface ItemProps {
-  name: string;
-  quantity: number;
-  category: string;
-}
-
-
-const Item: React.FC<ItemProps> = ({ name, quantity, category }) => {
+const Page: React.FC = () => {
   return (
-    <li className="bg-white shadow-md rounded-md p-4 mb-2 flex justify-between items-center">
-      <div>
-        <p className="font-semibold text-gray-800">{name}</p>
-        <p className="text-gray-500 text-sm">{category}</p>
+    <main className="relative w-full min-h-screen flex flex-col items-center justify-start p-6">
+      {/* Blurred background */}
+      <div 
+        className="
+          absolute inset-0 -z-10
+          bg-[url('/week-3/grocerystock.jpg')] 
+          bg-cover bg-center
+          blur-sm
+        "
+      />
+      
+      {/* Content */}
+      <h1 className="text-4xl font-bold text-white mt-6 mb-6 drop-shadow-lg">
+        Shopping List
+      </h1>
+      <div className="bg-white bg-opacity-80 rounded-lg p-4 w-full max-w-xl shadow-lg">
+        <ItemList />
       </div>
-      <span className="text-gray-700 font-medium">{quantity}</span>
-    </li>
+    </main>
   );
 };
 
-export default Item;
+export default Page;
