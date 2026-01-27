@@ -13,9 +13,13 @@ const Page: React.FC = () => {
           blur-sm
         "
       />
+        <div
+        className="absolute inset-0 -z-10 bg-black opacity-60 pointer-events-none"
+        aria-hidden="true"
+      />
       
       {/* Content */}
-      <h1 className="text-4xl font-bold text-red-800 mt-6 mb-6 drop-shadow-lg">
+      <h1 className="text-4xl font-bold text-green-500 mt-6 mb-6 drop-shadow-lg">
         Shopping List
       </h1>
       <div className="bg-white bg-opacity-80 rounded-lg p-4 w-full max-w-xl shadow-lg">
