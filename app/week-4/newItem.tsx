@@ -26,7 +26,7 @@ export default function NewItem() {
   };
 
   const increment = () => {
-    if (quantity < 20) {
+    if (quantity < 99) {
       setQuantity(quantity + 1);
     }
   };
