@@ -84,19 +84,19 @@ export default function NewItem() {
     id="category"
     value={category}
     onChange={(e) => setCategory(e.target.value)}
-    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+    className="w-full px-3 py-2 border border-gray-300 bg-white text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
   >
-    <option value="produce" className="text-gray-900">Produce</option>
-    <option value="dairy" className="text-gray-900">Dairy</option>
-    <option value="bakery" className="text-gray-900">Bakery</option>
-    <option value="meat" className="text-gray-900">Meat</option>
-    <option value="frozen" className="text-gray-900">Frozen Foods</option>
-    <option value="canned" className="text-gray-900">Canned Goods</option>
-    <option value="dry" className="text-gray-900">Dry Goods</option>
-    <option value="beverages" className="text-gray-900">Beverages</option>
-    <option value="snacks" className="text-gray-900">Snacks</option>
-    <option value="household" className="text-gray-900">Household</option>
-    <option value="other" className="text-gray-900">Other</option>
+    <option value="produce">Produce</option>
+    <option value="dairy">Dairy</option>
+    <option value="bakery">Bakery</option>
+    <option value="meat">Meat</option>
+    <option value="frozen">Frozen Foods</option>
+    <option value="canned">Canned Goods</option>
+    <option value="dry">Dry Goods</option>
+    <option value="beverages">Beverages</option>
+    <option value="snacks">Snacks</option>
+    <option value="household">Household</option>
+    <option value="other">Other</option>
   </select>
 </div>
 
