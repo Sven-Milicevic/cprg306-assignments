@@ -5,15 +5,24 @@ export default function NewItem() {
   const [name, setName] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
   const [category, setCategory] = useState<string>("produce");
+  const [nameTouched, setNameTouched] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Validation check
+    if (!name || name.trim().length < 2) {
+      alert("Please enter a valid item name (at least 2 characters).");
+      return;
+    }
+    
     const item = { name, quantity, category };
     console.log("New item:", item);
     alert(`Item: ${name}\nQuantity: ${quantity}\nCategory: ${category}`);
     setName("");
     setQuantity(1);
     setCategory("produce");
+    setNameTouched(false);
   };
 
   const increment = () => {
@@ -43,10 +52,20 @@ export default function NewItem() {
           id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          onBlur={() => setNameTouched(true)}
           required
-          className="w-full px-3 py-2 border border-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`w-full px-3 py-2 border ${
+            nameTouched && (!name || name.trim().length < 2)
+              ? "border-red-500"
+              : "border-white"
+          } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
           placeholder="Enter item name"
         />
+        {nameTouched && (!name || name.trim().length < 2) && (
+          <p className="text-red-400 text-sm mt-1">
+            Please enter at least 2 characters
+          </p>
+        )}
       </div>
 
       {/* Quantity with +/- Buttons */}
@@ -62,7 +81,7 @@ export default function NewItem() {
           >
             -
           </button>
-          <span className="text-xl font-semibold w-12 text-center">
+          <span className="text-xl font-semibold w-12 text-center text-white">
             {quantity}
           </span>
           <button
@@ -75,35 +94,36 @@ export default function NewItem() {
         </div>
       </div>
 
-     {/* Category Select */}
-<div>
-  <label htmlFor="category" className="block text-sm font-medium text-white mb-1">
-    Category
-  </label>
-  <select
-    id="category"
-    value={category}
-    onChange={(e) => setCategory(e.target.value)}
-    className="w-full px-3 py-2 border border-gray-300 bg-white text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-  >
-    <option value="produce">Produce</option>
-    <option value="dairy">Dairy</option>
-    <option value="bakery">Bakery</option>
-    <option value="meat">Meat</option>
-    <option value="frozen">Frozen Foods</option>
-    <option value="canned">Canned Goods</option>
-    <option value="dry">Dry Goods</option>
-    <option value="beverages">Beverages</option>
-    <option value="snacks">Snacks</option>
-    <option value="household">Household</option>
-    <option value="other">Other</option>
-  </select>
-</div>
+      {/* Category Select */}
+      <div>
+        <label htmlFor="category" className="block text-sm font-medium text-white mb-1">
+          Category
+        </label>
+        <select
+          id="category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 bg-white text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="produce">Produce</option>
+          <option value="dairy">Dairy</option>
+          <option value="bakery">Bakery</option>
+          <option value="meat">Meat</option>
+          <option value="frozen">Frozen Foods</option>
+          <option value="canned">Canned Goods</option>
+          <option value="dry">Dry Goods</option>
+          <option value="beverages">Beverages</option>
+          <option value="snacks">Snacks</option>
+          <option value="household">Household</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
 
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+        disabled={!name || name.trim().length < 2}
+        className="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
       >
         Add Item
       </button>
