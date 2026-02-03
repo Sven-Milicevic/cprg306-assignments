@@ -7,15 +7,22 @@ export default function Page() {
 
       <p style={{ marginTop: "20px" }}>
         <Link href="/week-2">
-          Go to Week 2 Page
+          Go to Week 2: Page
         </Link>
       </p>
 
       <p style={{ marginTop: "10px" }}>
         <Link href="/week-3">
-          Go to Week 3 Shopping List
+          Go to Week 3: Shopping List
         </Link>
       </p>
+
+      <p style={{ marginTop: "10px" }}>
+        <Link href="/week-4">
+          Go to Week 4: Add New item
+        </Link>
+      </p>
+
     </main>
   );
 }
