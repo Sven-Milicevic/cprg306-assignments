@@ -13,6 +13,8 @@ const Page: React.FC = () => {
           blur-sm
         "
       />
+      
+      {/* Dark overlay */}
         <div
         className="absolute inset-0 -z-10 bg-black opacity-60 pointer-events-none"
         aria-hidden="true"

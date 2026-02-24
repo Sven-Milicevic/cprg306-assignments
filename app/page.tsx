@@ -29,6 +29,12 @@ export default function Page() {
         </Link>
       </p>
 
+      <p style={{ marginTop: "10px" }}>
+        <Link href="/week-6">
+        Go to Week 6: Managing State
+        </Link>
+      </p>
+
     </main>
   );
 }
