@@ -108,7 +108,7 @@ export default function NewItem({ onAddItem }: NewItemProps) {
           id="category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 bg-white text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 bg-white text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         >
           <option value="produce">Produce</option>
           <option value="dairy">Dairy</option>
