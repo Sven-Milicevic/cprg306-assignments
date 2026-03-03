@@ -28,7 +28,7 @@ export default function NewItem({ onAddItem }: NewItemProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-[#131637]/90 shadow-[0_0_20px_#00f0ff] rounded-2xl p-6 w-full max-w-md space-y-4 border border-cyan-500"
+      className="bg-[#131637]/90 glow-pulse-cyan rounded-2xl p-6 w-full max-w-md space-y-4 border border-cyan-500"
     >
       {/* Name */}
       <div>

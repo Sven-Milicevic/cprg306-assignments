@@ -24,3 +24,32 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes glow-pulse-cyan {
+  0%, 100% {
+    box-shadow: 0 0 10px #00f0ff;
+  }
+  50% {
+    box-shadow: 0 0 30px #00f0ff, 0 0 60px #00f0ff;
+  }
+}
+
+@utility glow-pulse-cyan {
+  animation: glow-pulse-cyan 4s ease-in-out infinite;
+}
+
+@keyframes neon-flicker-pink {
+  0%   { filter: drop-shadow(0 0 10px #ff2be6) drop-shadow(0 0 20px #ff2be6); }
+  5%   { filter: none; }
+  6%   { filter: drop-shadow(0 0 10px #ff2be6) drop-shadow(0 0 20px #ff2be6); }
+  10%  { filter: none; }
+  11%  { filter: drop-shadow(0 0 10px #ff2be6) drop-shadow(0 0 20px #ff2be6); }
+  50%  { filter: drop-shadow(0 0 10px #ff2be6) drop-shadow(0 0 20px #ff2be6); }
+  51%  { filter: none; }
+  52%  { filter: drop-shadow(0 0 10px #ff2be6) drop-shadow(0 0 20px #ff2be6); }
+  100% { filter: drop-shadow(0 0 10px #ff2be6) drop-shadow(0 0 20px #ff2be6); }
+}
+
+@utility neon-flicker-pink {
+  animation: neon-flicker-pink 4s linear infinite;
+}

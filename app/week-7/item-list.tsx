@@ -67,7 +67,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, onItemSelect }) => {
       </div>
 
       {/* Items */}
-      <ul className="bg-[#131637]/90 rounded-lg shadow-[0_0_20px_#00f0ff] p-4 border border-cyan-500">
+      <ul className="bg-[#131637]/90 rounded-lg glow-pulse-cyan p-4 border border-cyan-500">
         {sortBy === "grouped"
           ? groupedItems.map(([category, group], i) => (
               <li

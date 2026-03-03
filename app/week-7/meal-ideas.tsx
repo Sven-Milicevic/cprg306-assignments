@@ -108,7 +108,7 @@ export default function MealIdeas({ ingredient }: MealIdeasProps) {
             Showing meals with{" "}
             <span className="text-pink-400 font-semibold">{ingredient}</span>:
           </p>
-          <ul className="bg-[#131637]/90 rounded-lg shadow-[0_0_20px_#00f0ff] p-4 border border-cyan-500 space-y-3">
+          <ul className="bg-[#131637]/90 rounded-lg glow-pulse-cyan p-4 border border-cyan-500 space-y-3">
             {meals.map((meal) => {
               const isExpanded = expandedId === meal.idMeal;
               const isLoading = loadingId === meal.idMeal;

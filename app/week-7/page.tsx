@@ -42,7 +42,7 @@ export default function Page() {
       }}
     >
       <div className="flex flex-col items-center pt-8 pb-8 space-y-6">
-        <h1 className="text-4xl font-extrabold text-pink-400 drop-shadow-[0_0_10px_#ff2be6]">
+        <h1 className="text-4xl font-extrabold text-pink-400 neon-flicker-pink">
           Shopping List
         </h1>
 
