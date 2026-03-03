@@ -17,26 +17,38 @@ interface MealIdeasProps {
 }
 
 async function fetchMealIdeas(ingredient: string): Promise<Meal[]> {
-  const res = await fetch(
-    `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`
-  );
-  const data = await res.json();
-  return data.meals ?? [];
+  try {
+    const res = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`
+    );
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    const data = await res.json();
+    return data.meals ?? [];
+  } catch (error) {
+    console.error("Failed to fetch meal ideas:", error);
+    return [];
+  }
 }
 
 async function fetchMealDetail(idMeal: string): Promise<MealDetail> {
-  const res = await fetch(
-    `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
-  );
-  const data = await res.json();
-  const meal = data.meals[0];
+  try {
+    const res = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
+    );
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    const data = await res.json();
+    const meal = data.meals[0];
 
-  const ingredients = Array.from({ length: 20 }, (_, i) => ({
-    name: meal[`strIngredient${i + 1}`] as string,
-    measure: meal[`strMeasure${i + 1}`] as string,
-  })).filter(({ name }) => name && name.trim() !== "");
+    const ingredients = Array.from({ length: 20 }, (_, i) => ({
+      name: meal[`strIngredient${i + 1}`] as string,
+      measure: meal[`strMeasure${i + 1}`] as string,
+    })).filter(({ name }) => name && name.trim() !== "");
 
-  return { ingredients };
+    return { ingredients };
+  } catch (error) {
+    console.error("Failed to fetch meal detail:", error);
+    return { ingredients: [] };
+  }
 }
 
 export default function MealIdeas({ ingredient }: MealIdeasProps) {
@@ -115,7 +127,7 @@ export default function MealIdeas({ ingredient }: MealIdeasProps) {
                     <img
                       src={meal.strMealThumb}
                       alt={meal.strMeal}
-                      className="w-14 h-14 rounded-lg object-cover shadow-[0_0_8px_#ff2be6] flex-shrink-0"
+                      className="w-14 h-14 rounded-lg object-cover shadow-[0_0_8px_#ff2be6] shrink-0"
                     />
                     <p className="text-cyan-300 font-medium flex-1">{meal.strMeal}</p>
                     <span className="text-pink-400 text-lg">
