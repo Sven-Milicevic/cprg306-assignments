@@ -37,7 +37,7 @@ export default function Page() {
 
       <p style={{ marginTop: "10px" }}>
         <Link href="/week-7">
-        Go to Week 7: Fetching
+        Go to Week 7: Fetching Data
         </Link>
       </p>
 
