@@ -8,6 +8,10 @@ interface Meal {
   strMealThumb: string;
 }
 
+interface MealDetail {
+  ingredients: { name: string; measure: string }[];
+}
+
 interface MealIdeasProps {
   ingredient: string;
 }
@@ -20,10 +24,31 @@ async function fetchMealIdeas(ingredient: string): Promise<Meal[]> {
   return data.meals ?? [];
 }
 
+async function fetchMealDetail(idMeal: string): Promise<MealDetail> {
+  const res = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
+  );
+  const data = await res.json();
+  const meal = data.meals[0];
+
+  const ingredients = Array.from({ length: 20 }, (_, i) => ({
+    name: meal[`strIngredient${i + 1}`] as string,
+    measure: meal[`strMeasure${i + 1}`] as string,
+  })).filter(({ name }) => name && name.trim() !== "");
+
+  return { ingredients };
+}
+
 export default function MealIdeas({ ingredient }: MealIdeasProps) {
   const [meals, setMeals] = useState<Meal[]>([]);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [mealDetails, setMealDetails] = useState<Record<string, MealDetail>>({});
+  const [loadingId, setLoadingId] = useState<string | null>(null);
 
   async function loadMealIdeas() {
+    setMeals([]);
+    setExpandedId(null);
+    setMealDetails({});
     const result = await fetchMealIdeas(ingredient);
     setMeals(result);
   }
@@ -31,6 +56,24 @@ export default function MealIdeas({ ingredient }: MealIdeasProps) {
   useEffect(() => {
     if (ingredient) loadMealIdeas();
   }, [ingredient]);
+
+  async function handleToggle(meal: Meal) {
+    // Collapse if already expanded
+    if (expandedId === meal.idMeal) {
+      setExpandedId(null);
+      return;
+    }
+
+    setExpandedId(meal.idMeal);
+
+    // Fetch details only if not already cached
+    if (!mealDetails[meal.idMeal]) {
+      setLoadingId(meal.idMeal);
+      const detail = await fetchMealDetail(meal.idMeal);
+      setMealDetails((prev) => ({ ...prev, [meal.idMeal]: detail }));
+      setLoadingId(null);
+    }
+  }
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -44,7 +87,8 @@ export default function MealIdeas({ ingredient }: MealIdeasProps) {
         </p>
       ) : meals.length === 0 ? (
         <p className="text-cyan-400 text-center">
-          No meal ideas found for <span className="text-pink-400 font-semibold">{ingredient}</span>.
+          No meal ideas found for{" "}
+          <span className="text-pink-400 font-semibold">{ingredient}</span>.
         </p>
       ) : (
         <>
@@ -53,19 +97,57 @@ export default function MealIdeas({ ingredient }: MealIdeasProps) {
             <span className="text-pink-400 font-semibold">{ingredient}</span>:
           </p>
           <ul className="bg-[#131637]/90 rounded-lg shadow-[0_0_20px_#00f0ff] p-4 border border-cyan-500 space-y-3">
-            {meals.map((meal) => (
-              <li
-                key={meal.idMeal}
-                className="flex items-center gap-3 border-b border-purple-700 pb-3 last:border-b-0 last:pb-0"
-              >
-                <img
-                  src={meal.strMealThumb}
-                  alt={meal.strMeal}
-                  className="w-14 h-14 rounded-lg object-cover shadow-[0_0_8px_#ff2be6]"
-                />
-                <p className="text-cyan-300 font-medium">{meal.strMeal}</p>
-              </li>
-            ))}
+            {meals.map((meal) => {
+              const isExpanded = expandedId === meal.idMeal;
+              const isLoading = loadingId === meal.idMeal;
+              const detail = mealDetails[meal.idMeal];
+
+              return (
+                <li
+                  key={meal.idMeal}
+                  className="border-b border-purple-700 pb-3 last:border-b-0 last:pb-0"
+                >
+                  {/* Meal row — click to toggle */}
+                  <button
+                    onClick={() => handleToggle(meal)}
+                    className="flex items-center gap-3 w-full text-left hover:bg-[#272b5a] rounded-lg px-2 py-1 transition-colors"
+                  >
+                    <img
+                      src={meal.strMealThumb}
+                      alt={meal.strMeal}
+                      className="w-14 h-14 rounded-lg object-cover shadow-[0_0_8px_#ff2be6] flex-shrink-0"
+                    />
+                    <p className="text-cyan-300 font-medium flex-1">{meal.strMeal}</p>
+                    <span className="text-pink-400 text-lg">
+                      {isExpanded ? "▲" : "▼"}
+                    </span>
+                  </button>
+
+                  {/* Expanded ingredients */}
+                  {isExpanded && (
+                    <div className="mt-2 ml-2 pl-3 border-l-2 border-pink-500">
+                      {isLoading ? (
+                        <p className="text-cyan-400 text-sm">Loading ingredients...</p>
+                      ) : detail ? (
+                        <>
+                          <p className="text-pink-400 text-sm font-semibold mb-1">
+                            Ingredients:
+                          </p>
+                          <ul className="space-y-1">
+                            {detail.ingredients.map(({ name, measure }, i) => (
+                              <li key={i} className="flex justify-between text-sm">
+                                <span className="text-cyan-300">{name}</span>
+                                <span className="text-gray-400">{measure.trim()}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                      ) : null}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </>
       )}
