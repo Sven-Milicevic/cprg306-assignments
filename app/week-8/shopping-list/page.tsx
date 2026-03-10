@@ -17,16 +17,16 @@ interface ItemType {
 
 export default function ShoppingListPage() {
   const router = useRouter();
-  const { user, firebaseSignOut } = useUserAuth();
+  const { user, firebaseSignOut, loading } = useUserAuth(); // use the loading state
   const [items, setItems] = useState<ItemType[]>(itemsData);
   const [selectedItemName, setSelectedItemName] = useState<string>("");
 
-  // Redirect if not logged in
+  // Redirect if not logged in (after loading finishes)
   useEffect(() => {
-    if (!user) {
-      router.push("/week-8");
+    if (!loading && !user) {
+      router.push("/week-8/access-denied");
     }
-  }, [user, router]);
+  }, [user, loading, router]);
 
   // Add a new item
   const handleAddItem = (item: Omit<ItemType, "id">) => {
@@ -55,6 +55,17 @@ export default function ShoppingListPage() {
       console.error("Logout failed:", error);
     }
   };
+
+  // Show a loading message while checking authentication
+  if (loading || !user) {
+    return (
+      <main className="min-h-screen flex items-center justify-center text-white bg-[#0b0c24]">
+        <p className="text-cyan-400 text-lg animate-pulse">
+          Checking authentication...
+        </p>
+      </main>
+    );
+  }
 
   return (
     <main
