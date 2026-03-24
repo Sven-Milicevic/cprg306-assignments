@@ -47,6 +47,12 @@ export default function Page() {
         </Link>
       </p>
 
+       <p style={{ marginTop: "10px" }}>
+        <Link href="/week-10">
+        Go to Week 10: Cloud Firestore
+        </Link>
+      </p>
+
 
     </main>
   );
